@@ -1,0 +1,44 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &__content {
+    background-color: #fff;
+    padding: 30px;
+    position: relative;
+    min-width: 30vw;
+    max-width: 70vw;
+    min-height: 30vh;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    cursor: default;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  &__close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
+
+  &__link {
+    font-size: 14px;
+    font-family: sans-serif;
+  }
+}
