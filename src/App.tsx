@@ -1,9 +1,5 @@
-const App = () => {
-    return (
-        <div>
-            Hello
-        </div>
-    )
-}
+import Router from './components/router'
+
+const App = () => <Router/>
 
 export default App
