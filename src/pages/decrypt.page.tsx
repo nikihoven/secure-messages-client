@@ -1,7 +1,7 @@
 const DecryptPage = () => {
     return (
         <div>
-            
+
         </div>
     )
 }
