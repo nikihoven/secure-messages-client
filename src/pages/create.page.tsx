@@ -1,4 +1,8 @@
-import {FormEvent, useState} from 'react'
+import {FormEvent, ReactNode, useState} from 'react'
+
+import MessageService from '../api/MessageService'
+import Utils from '../utils'
+import Modal from '../components/modal'
 
 interface IFormState {
     message: string,
@@ -17,11 +21,43 @@ const CreatePage = () => {
             hours: '0',
             minutes: '1'
         })
+    const [modal, setModal] = useState<ReactNode | null>(null)
 
-
+    const closeHandler = () => {
+        setModal(null)
+    }
 
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        if (!data.message || !data.passphrase || (!data.days && !data.hours && !data.minutes)) {
+            setModal(<Modal closeHandler={closeHandler} children={<h1>Incorrect data!</h1>}/>)
+            return
+        }
+
+        MessageService.createMessage(
+            data.message,
+            data.passphrase,
+            Utils.leadToMinutes(data.days, data.hours, data.minutes)
+        )
+            .then(res => setModal(
+                    <Modal
+                        closeHandler={closeHandler}
+                        children={
+                            <>
+                                <h1>Your message successfully created!</h1>
+                                <p>Share this link:</p>
+                                <div className="modal__link">{window.location.origin + '/decrypt/' + res.data}</div>
+                            </>
+                        }
+                    />
+                )
+            )
+            .catch(() => setModal(
+                <Modal closeHandler={closeHandler}
+                       children={<h1>Unable to create a message, reload the page!</h1>}
+                />))
+            .finally(() => setData({message: '', passphrase: '', days: '0', hours: '0', minutes: '1'}))
     }
 
     return (
@@ -93,6 +129,7 @@ const CreatePage = () => {
                 </div>
                 <button>Get one time link for secure message</button>
             </form>
+            {modal}
         </main>
     )
 }
